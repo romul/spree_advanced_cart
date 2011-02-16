@@ -1,0 +1,12 @@
+<table id="shipping_costs">
+  <tr>
+    <th><%= t(:shipping_method) %></th>
+    <th class="price"><%= t(:price) %></th>
+  </tr>
+  <% @esc_values.each do |name, price| %>
+    <tr>
+      <td><%= name %></td>
+      <td><%= number_to_currency price %></td>
+    </tr>
+  <% end %>
+</table>

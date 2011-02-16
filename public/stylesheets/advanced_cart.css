@@ -1,0 +1,25 @@
+#updatecart #order-charges td {
+  text-align: right;
+}
+
+#updatecart #order-charges td.total {
+  text-align: left;
+  width: 115px;
+}
+
+table#shipping_costs {
+  width: 40%;
+}
+
+table#shipping_costs th.price {
+  width: 70px;
+}
+
+div#estimate_shipping_costs {
+  margin: 40px 0;
+}
+
+div#applying_coupon {
+  float: left;
+  clear: left;
+}

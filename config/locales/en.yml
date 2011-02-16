@@ -1,0 +1,6 @@
+en:
+  enter_zipcode: "Enter zipcode"
+  apply_coupon: "Apply coupon"
+  calc_estimated_shipping_cost: "Calc estimated shipping cost"
+  actions:
+    calc: "Calc"
