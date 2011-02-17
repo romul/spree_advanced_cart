@@ -23,3 +23,6 @@ div#applying_coupon {
   float: left;
   clear: left;
 }
+
+.ajax_loader { display: none; }
+

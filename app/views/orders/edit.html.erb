@@ -14,21 +14,24 @@
     <%= render :partial => 'orders/advanced_cart' %>
   </div>
   <div style="clear:both;">
-  <div id='estimate_shipping_costs'>
-    <h3><%= t(:calc_estimated_shipping_cost) %></h3>
-    <%= form_tag estimate_shipping_cost_path, :remote => true, :method => :get do %>
-      <%= label_tag t(:enter_zipcode) %>: <%= text_field_tag :zipcode %>
-      <%= submit_tag t("actions.calc") %>
-    <% end %>
-    <div id='estimate_shipping_cost_table'></div>
-  </div>
- 
+  <% if Spree::AdvancedCart::Config[:enable_shipping_cost_calculation] %>
+    <div id='estimate_shipping_costs'>
+      <h3><%= t(:calc_estimated_shipping_cost) %></h3>
+      <%= form_tag estimate_shipping_cost_path, :remote => true, :method => :get do %>
+        <%= label_tag t(:enter_zipcode) %>: <%= text_field_tag :zipcode %>
+        <span class='ajax_loader'><%= image_tag 'ajax_loader.gif', :alt => t('loading') %></span>
+        <%= submit_tag t("actions.calc") %>
+      <% end %>
+      <div id='estimate_shipping_cost_table'></div>
+    </div>
+  <% end %>
+
   <%= form_tag empty_cart_path, :method => :put do %>
     <p id="clear_cart_link">
        <%= link_to t("continue_shopping"), products_path, :class => 'button continue' %> <%= t(:or) %>
       <input type="submit" value="<%= t('empty_cart') %>" class="button" />
     </p>
   <% end %>
-
+  </div>
 <% end %>
 

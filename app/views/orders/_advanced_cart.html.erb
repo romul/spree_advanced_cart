@@ -5,27 +5,32 @@
       <%= render :partial => 'form', :locals => {:order_form => order_form} %>
     <% end %>
 
-    <table id="order-charges">
-      <tbody>
-        <% @order.adjustments.each do |adjustment| %>
-          <tr>
-            <td><strong><%= adjustment.label %></strong></td>
-            <td class='total'><span><%= number_to_currency adjustment.amount %></span></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    
-    <div id="applying_coupon">
-      <h3><%= t(:apply_coupon) %></h3>
-      <label><%= t(:coupon_code) %></label>
-      <%= order_form.text_field :coupon_code, :size => 19 %>
-      <%= order_form.submit t("apply") %>
-    </div>
+    <% if Spree::AdvancedCart::Config[:enable_coupon_applying] %>
+      <table id="order-charges">
+        <tbody>
+          <% @order.adjustments.each do |adjustment| %>
+            <tr>
+              <td><strong><%= adjustment.label %></strong></td>
+              <td class='total'><span><%= number_to_currency adjustment.amount %></span></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div id="applying_coupon">
+        <h3><%= t(:apply_coupon) %></h3>
+        <label><%= t(:coupon_code) %></label>
+        <%= order_form.text_field :coupon_code, :size => 19 %>
+        <span class='ajax_loader'><%= image_tag 'ajax_loader.gif', :alt => t('loading') %></span>
+        <%= order_form.submit t("apply") %>
+      </div>
+    <% end %>
 
     <div id="subtotal">
       <h3><%= "#{t("subtotal")}: #{order_price(@order)}" %></h3>
-      <h3><%= "#{t("total")}: #{number_to_currency @order.total}" %></h3>
+      <% if Spree::AdvancedCart::Config[:enable_coupon_applying] %>
+        <h3><%= "#{t("total")}: #{number_to_currency @order.total}" %></h3>
+      <% end %>
       <div class="links">
         <%= link_to image_tag('/images/update.png') + t("update"), '#', :class => 'button checkout primary', :onclick => "$('form#updatecart').submit(); return false;" %>
         <%= link_to image_tag('/images/checkout.png') + t("checkout"), checkout_path, :class => 'button checkout primary' %>
