@@ -7,3 +7,6 @@
 tmp
 nbproject
 *.swp
+spec/test_app
+Gemfile
+
