@@ -6,7 +6,7 @@
 
   <%= hook :empty_cart do %>
     <p><%= t("your_cart_is_empty.") %></p>
-    <p><%=link_to t("continue_shopping"), products_path, :class => 'button continue' %></p>
+    <p><%= link_to t("continue_shopping"), products_path, :class => 'button continue' %></p>
   <% end %>
 
 <% else %>
@@ -15,6 +15,7 @@
   </div>
   <div style="clear:both;">
   <% if Spree::AdvancedCart::Config[:enable_shipping_cost_calculation] %>
+    <%= hook :estimate_shipping_costs do %>
     <div id='estimate_shipping_costs'>
       <h3><%= t(:calc_estimated_shipping_cost) %></h3>
       <%= form_tag estimate_shipping_cost_path, :remote => true, :method => :get do %>
@@ -24,13 +25,17 @@
       <% end %>
       <div id='estimate_shipping_cost_table'></div>
     </div>
+    <% end %>
   <% end %>
-
-  <%= form_tag empty_cart_path, :method => :put do %>
-    <p id="clear_cart_link">
-       <%= link_to t("continue_shopping"), products_path, :class => 'button continue' %> <%= t(:or) %>
-      <input type="submit" value="<%= t('empty_cart') %>" class="button" />
-    </p>
+  
+  <%= hook :continue_shopping_or_empty_cart do %>
+    <%= form_tag empty_cart_path, :method => :put do %>
+      <p id="clear_cart_link">
+        <%= link_to t("continue_shopping"), products_path, :class => 'button continue' %>
+        <%= t(:or) %>
+        <input type="submit" value="<%= t('empty_cart') %>" class="button" />
+      </p>
+    <% end %>
   <% end %>
   </div>
 <% end %>

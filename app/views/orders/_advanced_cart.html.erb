@@ -27,14 +27,18 @@
     <% end %>
 
     <div id="subtotal">
-      <h3><%= "#{t("subtotal")}: #{order_price(@order)}" %></h3>
-      <% if Spree::AdvancedCart::Config[:enable_coupon_applying] %>
-        <h3><%= "#{t("total")}: #{number_to_currency @order.total}" %></h3>
+      <%= hook :advanced_cart_subtotal do %>
+        <h3><%= "#{t("subtotal")}: #{order_price(@order)}" %></h3>
+        <% if Spree::AdvancedCart::Config[:enable_coupon_applying] %>
+          <h3><%= "#{t("total")}: #{number_to_currency @order.total}" %></h3>
+        <% end %>
       <% end %>
+      <%= hook :advanced_cart_subtotal_links do %>
       <div class="links">
         <%= link_to image_tag('/images/update.png') + t("update"), '#', :class => 'button checkout primary', :onclick => "$('form#updatecart').submit(); return false;" %>
         <%= link_to image_tag('/images/checkout.png') + t("checkout"), checkout_path, :class => 'button checkout primary' %>
       </div>
+      <% end %>
     </div>
 
   <% end %>
