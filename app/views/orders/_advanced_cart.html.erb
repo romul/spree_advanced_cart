@@ -11,7 +11,7 @@
           <% @order.adjustments.each do |adjustment| %>
             <tr>
               <td><strong><%= adjustment.label %></strong></td>
-              <td class='total'><span><%= number_to_currency adjustment.amount %></span></td>
+              <td class="total"><span><%= number_to_currency adjustment.amount %></span></td>
             </tr>
           <% end %>
         </tbody>
@@ -21,7 +21,7 @@
         <h3><%= t(:apply_coupon) %></h3>
         <label><%= t(:coupon_code) %></label>
         <%= order_form.text_field :coupon_code, :size => 19 %>
-        <span class='ajax_loader'><%= image_tag 'ajax_loader.gif', :alt => t('loading') %></span>
+        <span class="ajax_loader"><%= image_tag 'ajax_loader.gif', :alt => t('loading') %></span>
         <%= order_form.submit t("apply") %>
       </div>
     <% end %>
@@ -43,4 +43,3 @@
 
   <% end %>
 <% end %>
-

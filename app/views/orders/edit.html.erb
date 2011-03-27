@@ -16,14 +16,14 @@
   <div style="clear:both;">
   <% if Spree::AdvancedCart::Config[:enable_shipping_cost_calculation] %>
     <%= hook :estimate_shipping_costs do %>
-    <div id='estimate_shipping_costs'>
+    <div id="estimate_shipping_costs">
       <h3><%= t(:calc_estimated_shipping_cost) %></h3>
       <%= form_tag estimate_shipping_cost_path, :remote => true, :method => :get do %>
         <%= label_tag t(:enter_zipcode) %>: <%= text_field_tag :zipcode %>
-        <span class='ajax_loader'><%= image_tag 'ajax_loader.gif', :alt => t('loading') %></span>
+        <span class="ajax_loader"><%= image_tag 'ajax_loader.gif', :alt => t('loading') %></span>
         <%= submit_tag t("actions.calc") %>
       <% end %>
-      <div id='estimate_shipping_cost_table'></div>
+      <div id="estimate_shipping_cost_table"></div>
     </div>
     <% end %>
   <% end %>
@@ -39,4 +39,3 @@
   <% end %>
   </div>
 <% end %>
-
