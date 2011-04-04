@@ -1,1 +1,5 @@
-$("#estimate_shipping_cost_table").html("<%= escape_javascript(render('estimate_shipping_cost_table')) %>");
+<% if @esc_values %>
+  $("#estimate_shipping_cost_table").html("<%= escape_javascript(render('estimate_shipping_cost_table')) %>");
+<% else %>
+  $("#estimate_shipping_cost_table").html("<span class=\"error\"><%= flash[:error] %></span>");
+<% end %>

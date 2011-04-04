@@ -2,5 +2,6 @@ en:
   enter_zipcode: "Enter zipcode"
   apply_coupon: "Apply coupon"
   calc_estimated_shipping_cost: "Calc estimated shipping cost"
+  estimation_works_only_with_us_zipcodes: "Shipping Estimation only works with US zip codes"
   actions:
     calc: "Calc"
