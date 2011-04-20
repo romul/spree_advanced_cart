@@ -16,11 +16,11 @@ OrdersController.class_eval do
   end
   
   def estimate_shipping_cost
-    if params[:zipcode] =~ /^\d{5}$/ || Spree::AdvancedCart::Config[:skip_zipcode_validation]
+    if params[:zipcode] =~ /^\d{5}$/ and state = state_id_by_zip(params[:zipcode]) || Spree::AdvancedCart::Config[:skip_zipcode_validation]
       @order = current_order
       @order.ship_address = Address.new(:zipcode => params[:zipcode],
                                         :country_id => Spree::Config[:default_country_id],
-                                        :state_id => state_id_by_zip(params[:zipcode]))
+                                        :state_id => state.id)
       @shipping_methods = ShippingMethod.all_available(@order)    
       @esc_values = @shipping_methods.map {|sm| [sm.name, sm.calculator.compute(@order)]}
     else
@@ -29,7 +29,7 @@ OrdersController.class_eval do
   end
   
   def state_id_by_zip(zip_code)
-    State.find_by_abbr(ZipCodeInfo.instance.state_for(zip_code)).id # rescue nil
+    State.find_by_abbr(ZipCodeInfo.instance.state_for(zip_code))
   end
   
 end
