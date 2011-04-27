@@ -4,4 +4,4 @@ ru:
   calc_estimated_shipping_cost: "Расчет стоимости доставки"
   estimation_works_only_with_us_zipcodes: "Оценка доставки работает только для индексов США"
   actions:
-    calc: "Расчитать"
+    calc: "Рассчитать"
