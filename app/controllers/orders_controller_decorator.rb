@@ -10,7 +10,7 @@ OrdersController.class_eval do
         redirect_to cart_path
       end
     else
-      render :edit
+      render :edit unless request.xhr?
     end
   end
   
