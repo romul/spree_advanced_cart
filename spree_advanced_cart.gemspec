@@ -20,5 +20,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency('spree_core', '>= 0.40.0')
   s.add_dependency('spree_promo', '>= 0.40.0')
+  s.add_dependency('zip-code-info', '>= 0.1.0')
 end
 
