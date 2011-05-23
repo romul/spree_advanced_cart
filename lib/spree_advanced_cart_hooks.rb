@@ -1,6 +1,5 @@
-class SpreeAdvancedCartHooks < Spree::ThemeSupport::HookListener
-  insert_after :inside_head do
-    "<%= stylesheet_link_tag 'advanced_cart' %><%= javascript_include_tag 'advanced_cart' %>"
-  end
-end
+Deface::Override.new(:virtual_path => "layouts/spree_application",
+                     :name => "advanced_cart_assets",
+                     :insert_bottom => "head",
+                     :text => "<%= stylesheet_link_tag 'advanced_cart' %><%= javascript_include_tag 'advanced_cart' %>")
 

@@ -1,9 +1,8 @@
 <%= form_for(@order, :url => update_cart_path, :html=>{:id=>'updatecart'}, :remote => true) do |order_form| %>
-  <%= hook :inside_cart_form do %>
 
-    <%= hook :cart_items do %>
+    <div data-hook="cart_items">
       <%= render :partial => 'form', :locals => {:order_form => order_form} %>
-    <% end %>
+    </div>
 
     <% if Spree::AdvancedCart::Config[:enable_coupon_applying] %>
       <table id="order-charges">
@@ -27,19 +26,16 @@
     <% end %>
 
     <div id="subtotal">
-      <%= hook :advanced_cart_subtotal do %>
+      <div data-hook="advanced_cart_subtotal">
         <h3><%= "#{t("subtotal")}: #{order_price(@order)}" %></h3>
         <% if Spree::AdvancedCart::Config[:enable_coupon_applying] %>
           <h3><%= "#{t("total")}: #{number_to_currency @order.total}" %></h3>
         <% end %>
-      <% end %>
-      <%= hook :advanced_cart_subtotal_links do %>
-      <div class="links">
+      </div>
+      <div class="links" data-hook="advanced_cart_subtotal_links">
         <%= link_to image_tag('/images/update.png') + t("update"), '#', :class => 'button checkout primary', :onclick => "$('form#updatecart').submit(); return false;" %>
         <%= link_to image_tag('/images/checkout.png') + t("checkout"), checkout_path, :class => 'button checkout primary' %>
       </div>
-      <% end %>
     </div>
 
-  <% end %>
 <% end %>
