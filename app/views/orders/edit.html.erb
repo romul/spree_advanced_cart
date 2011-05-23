@@ -4,18 +4,17 @@
 
 <% if @order.line_items.empty? %>
 
-  <%= hook :empty_cart do %>
+  <div data-hook="empty_cart">
     <p><%= t("your_cart_is_empty.") %></p>
     <p><%= link_to t("continue_shopping"), products_path, :class => 'button continue' %></p>
-  <% end %>
+  </div>
 
 <% else %>
   <div id="advanced_cart">
     <%= render :partial => 'orders/advanced_cart' %>
   </div>
   <div style="clear:both;">
-  <% if Spree::AdvancedCart::Config[:enable_shipping_cost_calculation] %>
-    <%= hook :estimate_shipping_costs do %>
+    <% if Spree::AdvancedCart::Config[:enable_shipping_cost_calculation] %>
     <div id="estimate_shipping_costs">
       <h3><%= t(:calc_estimated_shipping_cost) %></h3>
       <%= form_tag estimate_shipping_cost_path, :remote => true, :method => :get do %>
@@ -26,16 +25,15 @@
       <div id="estimate_shipping_cost_table"></div>
     </div>
     <% end %>
-  <% end %>
   
-  <%= hook :continue_shopping_or_empty_cart do %>
-    <%= form_tag empty_cart_path, :method => :put do %>
+    <div data-hook="continue_shopping_or_empty_cart">
+    <%= form_tag empty_cart_path, :method => :put, :id => 'continue_shopping_or_empty_cart' do %>
       <p id="clear_cart_link">
         <%= link_to t("continue_shopping"), products_path, :class => 'button continue' %>
         <%= t(:or) %>
         <input type="submit" value="<%= t('empty_cart') %>" class="button" />
       </p>
     <% end %>
-  <% end %>
+    </div>
   </div>
 <% end %>
