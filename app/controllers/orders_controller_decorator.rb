@@ -16,8 +16,8 @@ OrdersController.class_eval do
   end
   
   def estimate_shipping_cost
+    return unless @order = current_order
     if params[:zipcode] =~ /^\d{5}$/ and state = state_id_by_zip(params[:zipcode]) || Spree::AdvancedCart::Config[:skip_zipcode_validation]
-      @order = current_order
       @order.ship_address = Address.new(:zipcode => params[:zipcode],
                                         :country_id => Spree::Config[:default_country_id],
                                         :state_id => state.id)
