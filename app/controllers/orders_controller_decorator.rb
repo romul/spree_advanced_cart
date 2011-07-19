@@ -23,6 +23,10 @@ OrdersController.class_eval do
                                         :state_id => state.id)
       @shipping_methods = ShippingMethod.all_available(@order)    
       @esc_values = @shipping_methods.map {|sm| [sm.name, sm.calculator.compute(@order)]}
+      respond_with do |format|
+        format.html { flash[:notice] = @esc_values.collect{|name, price| "#{name} #{price}" }.join("<br />").html_safe; redirect_to cart_path }
+        format.js { render :action => :estimate_shipping_cost }
+      end
     else
       flash[:error] = I18n.t(:estimation_works_only_with_us_zipcodes)
     end
