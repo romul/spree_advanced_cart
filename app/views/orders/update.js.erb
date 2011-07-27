@@ -1,2 +1,6 @@
-$("#advanced_cart").html("<%= escape_javascript(render('advanced_cart')) %>");
-
+<% if @order.line_items.present? %>
+  $("#advanced_cart").html("<%= escape_javascript(render('advanced_cart')) %>");
+<% else %>
+  $("#updating_cart_please_wait").html("<span class='flash notice'>Please wait while we update your cart...</span>");
+  window.location.reload(true);
+<% end %>

@@ -3,8 +3,7 @@ OrdersController.class_eval do
   
   def update
     @order = current_order
-    if @order.update_attributes(params[:order])
-      @order.line_items = @order.line_items.select {|li| li.quantity > 0 }
+    if @order.update_attributes(params[:order]) and (@order.line_items = @order.line_items.select {|li| li.quantity > 0 }).present?
       if request.xhr?
         @order.update!
       else
