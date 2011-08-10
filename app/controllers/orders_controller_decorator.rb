@@ -16,11 +16,17 @@ OrdersController.class_eval do
   end
   
   def estimate_shipping_cost
-    if params[:zipcode] =~ /^\d{5}$/ and state = state_id_by_zip(params[:zipcode]) || Spree::AdvancedCart::Config[:skip_zipcode_validation]
-      @order = current_order(true)
-      @order.ship_address = Address.new(:zipcode => params[:zipcode],
-                                        :country_id => Spree::Config[:default_country_id],
-                                        :state_id => state.id)
+    @order = current_order(true)
+    address = if params[:zipcode] =~ /^\d{5}$/ and state = state_id_by_zip(params[:zipcode]) || Spree::AdvancedCart::Config[:skip_zipcode_validation]
+      Address.new(:zipcode => params[:zipcode],
+              :country_id => Spree::Config[:default_country_id],
+              :state_id => state.id)
+    elsif params[:zipcode] =~ /[:alpha:][\d][:alpha:]\s?[\d][:alpha:][\d]/
+      Address.new(:zipcode => params[:zipcode],
+              :country_id => Country.find_by_iso('CA').id)
+    end
+    if address
+      @order.ship_address = address
       @shipping_methods = ShippingMethod.all_available(@order)    
       @esc_values = @shipping_methods.map {|sm| [sm.name, sm.calculator.compute(@order)]}
       respond_with do |format|
@@ -28,7 +34,7 @@ OrdersController.class_eval do
         format.js { render :action => :estimate_shipping_cost }
       end
     else
-      flash[:error] = I18n.t(:estimation_works_only_with_us_zipcodes)
+      flash[:error] = I18n.t('estimation_requires_supported_zipcode')
     end
   end
   
