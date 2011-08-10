@@ -2,8 +2,9 @@ OrdersController.class_eval do
   require 'zip-code-info'
   
   def update
-    @order = current_order
-    if @order.update_attributes(params[:order]) and (@order.line_items = @order.line_items.select {|li| li.quantity > 0 }).present?
+    @order = current_order(true)
+    if @order.update_attributes(params[:order])
+      @order.line_items = @order.line_items.select {|li| li.quantity > 0 }
       if request.xhr?
         @order.update!
       else
@@ -16,7 +17,7 @@ OrdersController.class_eval do
   
   def estimate_shipping_cost
     if params[:zipcode] =~ /^\d{5}$/ and state = state_id_by_zip(params[:zipcode]) || Spree::AdvancedCart::Config[:skip_zipcode_validation]
-      @order = current_order
+      @order = current_order(true)
       @order.ship_address = Address.new(:zipcode => params[:zipcode],
                                         :country_id => Spree::Config[:default_country_id],
                                         :state_id => state.id)
