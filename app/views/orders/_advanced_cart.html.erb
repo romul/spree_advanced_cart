@@ -23,6 +23,7 @@
         <%= order_form.text_field :coupon_code, :size => 19 %>
         <span class="ajax_loader"><%= image_tag 'ajax_loader.gif', :alt => t('loading') %></span>
         <%= order_form.submit t("apply") %>
+        <span id="updating_cart_please_wait"></span>
       </div>
     <% end %>
 
