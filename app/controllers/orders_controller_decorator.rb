@@ -17,16 +17,25 @@ OrdersController.class_eval do
   
   def estimate_shipping_cost
     @order = current_order(true)
-    address = if params[:zipcode] =~ /^\d{5}$/ and state = state_id_by_zip(params[:zipcode]) || Spree::AdvancedCart::Config[:skip_zipcode_validation]
-      Address.new(:zipcode => params[:zipcode],
-              :country_id => Spree::Config[:default_country_id],
-              :state_id => state.id)
-    elsif params[:zipcode] =~ /[:alpha:][\d][:alpha:]\s?[\d][:alpha:][\d]/
-      Address.new(:zipcode => params[:zipcode],
-              :country_id => Country.find_by_iso('CA').id)
+    # default attributes for stub address
+    address_attrs = { :zipcode => params[:zipcode], 
+                      :country_id => Spree::Config[:default_country_id] }
+    
+    zipcode_is_valid = true
+    if !Spree::AdvancedCart::Config[:skip_zipcode_validation]
+      # validate zipcode and override attributes of stub address    
+      if params[:zipcode] =~ /^\d{5}$/ # USA zipcode
+        state = state_id_by_zip(params[:zipcode])
+        address_attrs.merge!(:state_id => state.try(:id))
+      elsif params[:zipcode] =~ /[a-z]\d[a-z]\s?\d[a-z]\d/i # Canadian zipcode
+        address_attrs.merge!(:country_id => Country.find_by_iso('CA').try(:id))
+      else
+        zipcode_is_valid = false
+      end
     end
-    if address
-      @order.ship_address = address
+    
+    if zipcode_is_valid
+      @order.ship_address = Address.new(address_attrs)
       @shipping_methods = ShippingMethod.all_available(@order)    
       @esc_values = @shipping_methods.map {|sm| [sm.name, sm.calculator.compute(@order)]}
       respond_with do |format|
