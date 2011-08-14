@@ -2,6 +2,6 @@ ru:
   enter_zipcode: "Введите почтовый индекс"
   apply_coupon: "Использовать купон"
   calc_estimated_shipping_cost: "Расчет стоимости доставки"
-  estimation_requires_supported_zipcode: "Оценка доставки работает только для индексов США"
+  estimation_requires_supported_zipcode: "Оценка доставки работает только для почтовых индексов США и Канады"
   actions:
     calc: "Рассчитать"
