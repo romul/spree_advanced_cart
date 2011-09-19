@@ -37,7 +37,11 @@ OrdersController.class_eval do
     if zipcode_is_valid
       @order.ship_address = Address.new(address_attrs)
       @shipping_methods = ShippingMethod.all_available(@order)    
-      @esc_values = @shipping_methods.map {|sm| [sm.name, sm.calculator.compute(@order)]}
+      @esc_values = @shipping_methods.
+                    map {|sm| [sm.name, sm.calculator.compute(@order)]}.
+                    select{|sm| sm[1]}. #Can a shipping calculator return nil for the price? 
+                    sort_by{|sm| sm[1]} #Mimic default spree_core behavior, preserve asc cost order
+                    
       respond_with do |format|
         format.html { flash[:notice] = @esc_values.collect{|name, price| "#{name} #{price}" }.join("<br />").html_safe; redirect_to cart_path }
         format.js { render :action => :estimate_shipping_cost }
