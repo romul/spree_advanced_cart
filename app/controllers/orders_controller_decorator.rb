@@ -42,12 +42,18 @@ OrdersController.class_eval do
                     select{|sm| sm[1]}. #Can a shipping calculator return nil for the price? 
                     sort_by{|sm| sm[1]} #Mimic default spree_core behavior, preserve asc cost order
                     
-      respond_with do |format|
-        format.html { flash[:notice] = @esc_values.collect{|name, price| "#{name} #{price}" }.join("<br />").html_safe; redirect_to cart_path }
-        format.js { render :action => :estimate_shipping_cost }
-      end
     else
       flash[:error] = I18n.t('estimation_requires_supported_zipcode')
+    end
+    
+    respond_with do |format|
+      format.html do
+        flash[:notice] = @esc_values.collect{|name, price| "#{name} #{price}" }.join("<br />").html_safe if @esc_values.present?
+        redirect_to cart_path
+      end
+      format.js do
+        render :action => :estimate_shipping_cost
+      end
     end
   end
   
