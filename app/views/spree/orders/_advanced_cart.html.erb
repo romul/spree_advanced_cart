@@ -28,7 +28,7 @@
 
     <div id="subtotal">
       <%= hook :advanced_cart_subtotal do %>
-        <h3><%= "#{t("subtotal")}: #{order_price(@order)}" %></h3>
+        <h3><%= "#{t("subtotal")}: #{order_subtotal(@order)}" %></h3>
         <% if Spree::AdvancedCart::Config[:enable_coupon_applying] %>
           <h3><%= "#{t("total")}: #{number_to_currency @order.total}" %></h3>
         <% end %>
