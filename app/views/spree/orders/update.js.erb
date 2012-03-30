@@ -1,5 +1,1 @@
-<% if @order.line_items.present? %>
-  $("#advanced_cart").html("<%= escape_javascript(render('advanced_cart')) %>");
-<% else %>
-  window.location.reload(true); 
-<% end %>
+$("#content").html("<%= escape_javascript(render(:template => 'spree/orders/edit')) %>");

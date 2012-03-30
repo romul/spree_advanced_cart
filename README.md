@@ -12,7 +12,7 @@ Installation
 
       Add `gem "spree_advanced_cart", :git => "git://github.com/romul/spree_advanced_cart.git"
       Run `bundle install`
-      Run `rake spree_advanced_cart:install:assets`
+      Run `rails g spree_advanced_cart:install`
 
 
 Copyright (c) 2011 Roman Smirnov

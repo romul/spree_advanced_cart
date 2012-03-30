@@ -10,8 +10,10 @@
      $(this).children(".ajax_loader").fadeOut();
      $(this).children("input[type=submit]").show();
     });
+    
+    $("form#update-cart").attr("data-remote", "true");
 
-    $('form#updatecart').live('ajax:before', function() {
+    $('form#update-cart').live('ajax:before', function() {
      $("#order_submit").fadeOut();
      $("#applying_coupon").children(".ajax_loader").show();
     });

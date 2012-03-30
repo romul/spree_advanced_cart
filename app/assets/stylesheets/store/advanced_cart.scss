@@ -1,18 +1,13 @@
-#updatecart #order-charges td {
-  text-align: right;
-}
-
-#updatecart #order-charges td.total {
-  text-align: left;
-  width: 115px;
+#update-cart #order-charges {
+  margin-left: auto;
+  td { text-align: right; padding-right: 1px;}
 }
 
 table#shipping_costs {
   width: 40%;
-}
-
-table#shipping_costs th.price {
-  width: 70px;
+  margin-top: 2em;
+  th { text-align: left; }
+  th.price { width: 70px; }
 }
 
 div#estimate_shipping_costs {
