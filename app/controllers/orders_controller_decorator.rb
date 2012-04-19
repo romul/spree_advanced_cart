@@ -6,15 +6,16 @@ Spree::OrdersController.class_eval do
     if @order.update_attributes(params[:order])
       @order.line_items = @order.line_items.select {|li| li.quantity > 0 }
       fire_event('spree.order.contents_changed')
+      
       if @order.coupon_code.present?
         if Spree::Promotion.exists?(:code => @order.coupon_code)
           fire_event('spree.checkout.coupon_code_added', :coupon_code => @order.coupon_code)
         end
       end
-      if request.xhr?
-        @order.update!
-      else
-        respond_with(@order) { |format| format.html { redirect_to cart_path } }
+      
+      respond_with(@order) do |format| 
+        format.html { redirect_to cart_path }
+        format.js { @order.update!; render }
       end
     else
       respond_with(@order)
