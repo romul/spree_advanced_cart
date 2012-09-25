@@ -8,8 +8,15 @@ Spree::OrdersController.class_eval do
       fire_event('spree.order.contents_changed')
       
       if @order.coupon_code.present?
-        if Spree::Promotion.exists?(:code => @order.coupon_code)
-          fire_event('spree.checkout.coupon_code_added', :coupon_code => @order.coupon_code)
+        promo = Spree::Promotion.where(:code => @order.coupon_code).first
+        if promo
+          if promo.eligible?(@order) && promo.order_activatable?(@order)
+            fire_event('spree.checkout.coupon_code_added', :coupon_code => @order.coupon_code)
+          else
+            flash.now[:error] = I18n.t(:promotion_cant_be_applied_to_current_order, :code => promo.code)
+          end
+        else
+          flash.now[:error] = I18n.t(:promotion_not_found)
         end
       end
       

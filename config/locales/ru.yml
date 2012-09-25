@@ -3,5 +3,6 @@ ru:
   apply_coupon: "Использовать купон"
   calc_estimated_shipping_cost: "Расчет стоимости доставки"
   estimation_requires_supported_zipcode: "Оценка доставки работает только для почтовых индексов США и Канады"
+  promotion_cant_be_applied_to_current_order: "Купон \"%{code}\" не может быть применён к текущему заказу"
   actions:
     calc: "Рассчитать"
