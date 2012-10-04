@@ -51,11 +51,18 @@ Spree::OrdersController.class_eval do
     if zipcode_is_valid
       @order.ship_address = Spree::Address.new(address_attrs)
       @shipping_methods = Spree::ShippingMethod.all_available(@order)    
-      @esc_values = @shipping_methods.
-                    map {|sm| [sm.name, sm.calculator.compute(@order)]}.
-                    select{|sm| sm[1]}. #Can a shipping calculator return nil for the price? 
-                    sort_by{|sm| sm[1]} #Mimic default spree_core behavior, preserve asc cost order
-                    
+      @esc_values = @shipping_methods.map do |sm|
+          error = nil
+          begin
+            rate = sm.calculator.compute(@order) 
+          rescue Spree::ShippingError => ex
+            error = ex.message.sub("Shipping Error: ", '')
+          rescue Net::HTTPServiceUnavailable
+            error = nil # carrier is unavailable atm, don't show this shipping method in the list
+          end
+          [sm.name, rate, error]
+        end.select{|sm| sm[1] || sm[2]}. # a shipping calculator can return nil for the price if error occurred
+            sort_by{|sm| sm[1] ? sm[1] : Float::MAX} # mimic default spree_core behavior, preserve asc cost order
     else
       flash[:error] = I18n.t('estimation_requires_supported_zipcode')
     end
