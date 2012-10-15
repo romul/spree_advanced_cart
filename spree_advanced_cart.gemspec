@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'spree_core', '~> 1.0'
   s.add_dependency('spree_promo', '~> 1.0')
-  s.add_dependency('zip-code-info', '>= 0.1.0')
+  s.add_dependency('zip-code-info', '~> 0.1.1')
   
   s.add_development_dependency('rspec-rails',  '~> 2.7')
   s.add_development_dependency('sqlite3')
