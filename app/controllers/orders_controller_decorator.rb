@@ -33,7 +33,7 @@ Spree::OrdersController.class_eval do
     @order = current_order(true)
     # default attributes for stub address
     address_attrs = { :zipcode => params[:zipcode], 
-                      :country_id => Spree::Config[:default_country_id] }
+                      :country_id => params[:country_id] || Spree::Config[:default_country_id] }
     
     zipcode_is_valid = true
     if !Spree::AdvancedCart::Config[:skip_zipcode_validation]
@@ -83,4 +83,3 @@ Spree::OrdersController.class_eval do
   end
   
 end
-
