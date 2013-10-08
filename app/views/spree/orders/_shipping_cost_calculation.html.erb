@@ -1,10 +1,10 @@
 <% if Spree::AdvancedCart::Config[:enable_shipping_cost_calculation] %>
   <div id="estimate_shipping_costs" class="links columns ten alpha">
-    <h3><%= t(:calc_estimated_shipping_cost) %></h3>
+    <h3><%= Spree.t(:calc_estimated_shipping_cost) %></h3>
     <%= form_tag estimate_shipping_cost_path, :remote => true, :method => :get do %>
-      <%= label_tag t(:enter_zipcode) %>: <%= text_field_tag :zipcode %>
-      <span class="ajax_loader"><%= image_tag 'spinner.gif', :alt => t('loading') %></span>
-      <%= submit_tag t("actions.calc") %>
+      <%= label_tag Spree.t(:enter_zipcode) %>: <%= text_field_tag :zipcode %>
+      <span class="ajax_loader"><%= image_tag 'spinner.gif', :alt => Spree.t('loading') %></span>
+      <%= submit_tag Spree.t("actions.calc") %>
     <% end %>
     <div id="estimate_shipping_cost_table"></div>
   </div>

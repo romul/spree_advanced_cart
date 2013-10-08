@@ -1,7 +1,7 @@
 <table id="shipping_costs">
   <tr>
-    <th><%= t(:shipping_method) %></th>
-    <th class="price"><%= t(:price) %></th>
+    <th><%= Spree.t(:shipping_method) %></th>
+    <th class="price"><%= Spree.t(:price) %></th>
   </tr>
   <% @esc_values.each do |name, price, error_message| %>
     <tr>

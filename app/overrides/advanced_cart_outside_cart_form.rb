@@ -1,5 +1,4 @@
 Deface::Override.new(:virtual_path => "spree/orders/edit",
-                     :name => "advanced_cart_outside_cart_form",
-                     :insert_after => "[data-hook='outside_cart_form']",
+                     :name => "advanced_cart_after_empty_cart",
+                     :insert_after => "div#empty-cart",
                      :partial => "spree/orders/shipping_cost_calculation")
-

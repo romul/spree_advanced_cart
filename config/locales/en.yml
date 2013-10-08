@@ -1,8 +1,7 @@
 en:
-  enter_zipcode: "Enter zipcode"
-  apply_coupon: "Apply coupon"
-  calc_estimated_shipping_cost: "Calc estimated shipping cost"
-  estimation_requires_supported_zipcode: "Shipping Estimation only supports US and Canadian zipcodes at this time, sorry."
-  promotion_cant_be_applied_to_current_order: "Coupon \"%{code}\" can't be applied to current order"
-  actions:
-    calc: "Calc"
+  spree:
+    enter_zipcode: "Enter zipcode"
+    calc_estimated_shipping_cost: "Calc estimated shipping cost"
+    estimation_requires_supported_zipcode: "Shipping Estimation only supports US and Canadian zipcodes at this time, sorry."
+    actions:
+      calc: "Calc"
