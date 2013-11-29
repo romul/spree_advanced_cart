@@ -15,7 +15,8 @@ Spree::OrdersController.class_eval do
     end
 
     @order.ship_address = Spree::Address.new(address_attrs)
-    @shipping_rates = @order.shipment.shipping_rates.frontend.includes(:shipping_method)
+    package = Spree::Stock::Coordinator.new(@order).packages.first
+    @shipping_rates = Spree::Stock::Estimator.new(@order).shipping_rates(package)
     @esc_values = @shipping_rates.map do |sr|
         error = nil
         begin
