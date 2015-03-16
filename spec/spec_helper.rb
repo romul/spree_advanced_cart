@@ -10,8 +10,7 @@ require 'rspec/rails'
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f }
 
 # Requires factories defined in spree_core
-require 'spree/core/testing_support/factories'
-require 'spree/core/testing_support/env'
+require 'spree/testing_support/factories'
 
 require 'ffaker'
 
@@ -33,5 +32,7 @@ RSpec.configure do |config|
   # examples within a transaction, comment the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
-  
+
+  config.include FactoryGirl::Syntax::Methods
+  config.infer_spec_type_from_file_location!
 end

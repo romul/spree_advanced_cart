@@ -1,13 +1,15 @@
 Spree::OrdersController.class_eval do
   require 'zip-code-info'
 
+  respond_to :js
+
   def estimate_shipping_cost
-    @order = current_order(true)
+    @order = current_order(create_order_if_necessary: false, lock: false)
     # default attributes for stub address
     country_id = params[:country_id] || Spree::Config[:default_country_id]
-    address_attrs = { :zipcode => params[:zipcode], 
+    address_attrs = { :zipcode => params[:zipcode],
                       :country_id => country_id }
-    
+
     country = Spree::Country.find(country_id)
     if country.iso == 'US'
       state = state_id_by_zip(params[:zipcode])
@@ -29,7 +31,7 @@ Spree::OrdersController.class_eval do
         [sr.name, rate, error]
       end.select{|sr| sr[1] || sr[2]}. # a shipping calculator can return nil for the price if error occurred
           sort_by{|sr| sr[1] ? sr[1] : Float::MAX} # mimic default spree_core behavior, preserve asc cost order
-    
+
     respond_with do |format|
       format.html do
         flash[:notice] = @esc_values.collect{|name, price| "#{name} #{price}" }.join("<br />").html_safe if @esc_values.present?
@@ -40,9 +42,9 @@ Spree::OrdersController.class_eval do
       end
     end
   end
-  
+
   def state_id_by_zip(zip_code)
     Spree::State.find_by_abbr(ZipCodeInfo.instance.state_for(zip_code))
   end
-  
+
 end

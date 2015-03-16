@@ -14,5 +14,12 @@ Installation
       Run `bundle install`
       Run `rails g spree_advanced_cart:install`
 
+Testing
+============
 
-Copyright (c) 2011 Roman Smirnov
+      Clone
+      Run `bundle`
+      Run `bundle exec rake test_app`
+      `cd spec/dunny && RAILS_ENV=test rake db:seed`
+
+Copyright (c) 2011-2015 Roman Smirnov, Denis Ivanov
